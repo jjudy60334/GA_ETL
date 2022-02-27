@@ -2,5 +2,11 @@
 This is repository for processing GA data
 
 
-##ToDo
+## Instruction
+1. fill in ga_config.py
+2. run
+
+   python main.py
+   ```
+## ToDo
 - add unit test

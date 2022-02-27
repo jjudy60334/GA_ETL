@@ -8,6 +8,6 @@ class JsonExtractor:
             lines = f.readlines()
         f.close()
         datas = []
-        for i in lines[:]:
+        for i in lines:
             datas.append(json.loads(i))
         return datas

@@ -2,21 +2,33 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 from google.cloud.bigquery.schema import SchemaField
 import time
+import datetime
 
 
-class BigqueryOperator:
+class BigqueryOperator():
     def __init__(self, credentials_file_path):
         self.credentials = service_account.Credentials.from_service_account_file(credentials_file_path)
         self.client = bigquery.Client(credentials=self.credentials)
         self.table = None
+        self.field_type = {
+            str: 'STRING',
+            bytes: 'BYTES',
+            int: 'INTEGER',
+            float: 'FLOAT',
+            bool: 'BOOLEAN',
+            datetime.datetime: 'DATETIME',
+            datetime.date: 'DATE',
+            datetime.time: 'TIME',
+            dict: 'RECORD',
+        }
 
     def _map_dict_to_bq_schema(self, schema_dict):
         # SchemaField list
         schema = []
         for key, value in schema_dict.items():
             if value == list:
-                raise "schema should not be list"
-            schema_field = SchemaField(key, schema_dict[value])  # NULLABLE BY DEFAULT
+                print("schema should not be list")
+            schema_field = SchemaField(key, self.field_type[value])  # NULLABLE BY DEFAULT
             schema.append(schema_field)
         return schema
 

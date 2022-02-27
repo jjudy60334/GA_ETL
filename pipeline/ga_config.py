@@ -1,10 +1,10 @@
 import datetime
 from google.cloud import bigquery
-credentials_file_path = 'credentials_file_path'
-file_path = 'file_path'
-project_id = 'project_id'
-destination_dataset = 'destination_dataset'
-dict_table = 'dict_table'
+credentials_file_path = 'claire.json'
+file_path = 'GA4_pseudo_dataset.json'
+project_id = 'phonic-client-341615'
+destination_dataset = 'vpon'
+dict_table = 'flatten_table2'
 dict_table_name = f'{project_id}.{destination_dataset}.{dict_table}'
 key_value_table = 'key_value_table'
 key_value_table_name = f'{project_id}.{destination_dataset}.{key_value_table}'
