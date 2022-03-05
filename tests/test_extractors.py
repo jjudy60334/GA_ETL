@@ -5,7 +5,7 @@ import unittest
 class TestJsonExtractor(unittest.TestCase):
 
     def setUp(self):
-        self.file_path = 'tests/test_Json_extractor.json'
+        self.file_path = 'tests/test_files/test_Json_extractor.json'
 
     def test_jsonextractor(self):
         json_extractor = JsonExtractor()

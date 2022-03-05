@@ -20,7 +20,8 @@ class Transformer:
             flatten_list.append(flatten_json)
         return flatten_list
 
-    def flatten_key_value_data(self, data: list, forign_column: list):
+    def flatten_key_value_data(self, data: list, forign_column: list) -> list:
+
         flatten_k_v_list = []
         for line in data:
             for column, value in line.items():
@@ -37,6 +38,15 @@ class Transformer:
         return flatten_k_v_list
 
     def clean_data_slice(self, column_type: dict, data: dict) -> dict:
+        """ clean data by slice
+
+        Arguments:
+            column_type {dict} -- data type of each column
+            data {dict} -- dictionary of input data
+
+        Returns:
+            dict -- cleaned data based on data type of each column
+        """
         converted_data = {}
         for column, v_type in column_type.items():
             if column not in data or data[column] == "":
