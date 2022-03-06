@@ -161,8 +161,8 @@ class TestTransformer(unittest.TestCase):
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'event_name': 'screen_view'},
             {'key_id': 'event_params', 'key': 'ga_session_id', 'string_value': None, 'int_value': 1631285116,
-             'double_value': None, 'float_value': None, 'set_timestamp_micros': None, 'event_date': datetime.date(
-                 2021, 9, 10),
+             'double_value': None, 'float_value': None, 'set_timestamp_micros': None,
+             'event_date': datetime.date(2021, 9, 10),
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'event_name': 'screen_view'},
             {'key_id': 'user_properties',
