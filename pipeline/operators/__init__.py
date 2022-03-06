@@ -1,1 +1,1 @@
-from pipeline.operators import BigqueryOperator
+from pipeline.operators import BigqueryOperator  # noqa
