@@ -22,6 +22,8 @@ class TestTransformer(unittest.TestCase):
         self.data_schema = {
             "event_date": datetime.date,
             "event_timestamp": datetime.datetime,
+            "event_params": list,
+            "user_properties": list,
             "event_name": str,
             "geo": {
                 "continent": str,
@@ -31,7 +33,11 @@ class TestTransformer(unittest.TestCase):
                 "id": str,
                 "version": str
             },
-            "user_pseudo_id": str}
+            "user_pseudo_id": str,
+            "user_first_touch_timestamp": datetime.datetime,
+            "privacy_info": {
+                "analytics_storage": str
+            }}
         self.flatten_data_schema = {
             "event_date": datetime.date,
             "event_name": str,
@@ -40,7 +46,9 @@ class TestTransformer(unittest.TestCase):
             'geo_metro': str,
             'app_info_id': str,
             "user_pseudo_id": str,
-            'app_info_version': str
+            'app_info_version': str,
+            'privacy_info_analytics_storage': str,
+            "user_first_touch_timestamp": datetime.datetime,
         }
         self.test_input = [{
             "event_date": "20210910", "event_timestamp": "1631285116932001", "event_name": "screen_view",
@@ -95,8 +103,8 @@ class TestTransformer(unittest.TestCase):
             'event_date': datetime.date(2022, 9, 10),
             'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
             'geo_continent': 'Asia', 'geo_metro': '(not set)', 'app_info_id': 'com.taitung',
-            'app_info_version': '4.0.22', "user_pseudo_id": "", 'event_name': ""
-        }
+            'app_info_version': '4.0.22', "user_pseudo_id": "", 'event_name': "",
+            'privacy_info_analytics_storage': "", "user_first_touch_timestamp": "", }
         output = self.transformer.convert_data_type_slice(self.flatten_data_schema, test_input)
         self.assertDictEqual(expect_output, output)
 
@@ -112,13 +120,16 @@ class TestTransformer(unittest.TestCase):
             'event_name': "",
             'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
             'geo_continent': 'Asia', 'geo_metro': '(not set)', 'app_info_id': 'com.taitung',
-            'app_info_version': '4.0.22', "user_pseudo_id": ""
+            'app_info_version': '4.0.22', "user_pseudo_id": "",
+            "user_first_touch_timestamp": "", 'privacy_info_analytics_storage': "",
+            "user_first_touch_timestamp": ""
         }, {
             'event_date': datetime.date(2022, 9, 13),
             'event_name': "",
             'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
             'geo_continent': 'Asia', 'geo_metro': '(not set)', 'app_info_id': 'com.taitung',
-            'app_info_version': '4.0.23', "user_pseudo_id": ""
+            'app_info_version': '4.0.23', "user_pseudo_id": "", 'privacy_info_analytics_storage': "",
+            "user_first_touch_timestamp": ""
         }]
         output = self.transformer.clean_data(self.flatten_data_schema, test_input)
         self.assertListEqual(expect_output, output)
@@ -132,11 +143,13 @@ class TestTransformer(unittest.TestCase):
             {'event_date': datetime.date(2022, 9, 10),
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'geo_continent': 'Asia', 'geo_metro': '(not set)', 'app_info_id': 'com.taitung',
-             'app_info_version': '4.0.22', 'user_pseudo_id': '', 'event_name': "", },
+             'app_info_version': '4.0.22', 'user_pseudo_id': '', 'event_name': "",
+             'privacy_info_analytics_storage': "", "user_first_touch_timestamp": ""},
             {'event_date': datetime.date(2022, 9, 20),
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'geo_continent': 'Asia', 'geo_metro': '', 'app_info_id': 'com.taitung',
-             'app_info_version': '4.0.23', 'user_pseudo_id': '', 'event_name': "", }]
+             'app_info_version': '4.0.23', 'user_pseudo_id': '', 'event_name': "",
+             'privacy_info_analytics_storage': "", "user_first_touch_timestamp": ""}]
         flatten_schema, output = self.transformer.transform_dict_data(self.data)
         self.assertListEqual(expect_output, output)
 
@@ -152,8 +165,13 @@ class TestTransformer(unittest.TestCase):
                  2021, 9, 10),
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'event_name': 'screen_view'},
-            {'key_id': 'user_properties', 'key': 'ga_session_id', 'string_value': '', 'int_value': 1631285116,
-             'double_value': '', 'float_value': '', 'set_timestamp_micros': 1631285116852000,
+            {'key_id': 'user_properties',
+             'key': 'ga_session_id',
+             'string_value': '',
+             'int_value': 1631285116,
+             'double_value': '',
+             'float_value': '',
+             'set_timestamp_micros': 1631285116852000,
              'event_date': datetime.date(2021, 9, 10),
              'event_timestamp': datetime.datetime(2021, 9, 10, 14, 45, 16),
              'event_name': 'screen_view'},

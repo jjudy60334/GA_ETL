@@ -24,7 +24,7 @@ class Transformer:
         flatten_k_v_list = []
         for line in data:
             for column, value in line.items():
-                if type(value) == list:
+                if self.data_schema[column] == list:
                     for key_value in value:
                         event_key_value = {}
                         event_key_value['key_id'] = column
@@ -67,7 +67,9 @@ class Transformer:
     def _flatten_data_schema(self):
         flattened_data_schema = dict()
         for column, v_type in self.data_schema.items():
-            if type(v_type) != dict:
+            if v_type == list:
+                continue
+            elif type(v_type) != dict:
                 flattened_data_schema[column] = v_type
             else:
                 for op_k, op_v in v_type.items():
