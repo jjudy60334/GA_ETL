@@ -49,7 +49,7 @@ class Transformer:
         converted_data = {}
         for column, v_type in column_type.items():
             if column not in data or data[column] == "":
-                converted_data[column] = ""
+                converted_data[column] = None
             elif v_type == datetime.date:
                 converted_data[column] = datetime.datetime.strptime(data[column], '%Y%m%d').date()
             elif v_type == datetime.datetime:

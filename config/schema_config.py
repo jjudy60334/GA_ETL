@@ -54,6 +54,7 @@ data_schema = {
         "source": str,
         "name": str
     },
+    "device_vendor_id": str,
     "items": {"item_id": str,
               "item_name": str,
               "item_brand": str,
