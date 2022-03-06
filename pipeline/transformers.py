@@ -11,9 +11,9 @@ class Transformer:
         for line in data:
             flatten_json = {}
             for column, value in line.items():
-                if type(value) == list:
+                if self.data_schema[column] == list:
                     continue
-                elif type(value) == dict:
+                elif type(self.data_schema[column]) == dict:
                     for op_k, op_v in value.items():  # flatten_data
                         flatten_json[f"{column}_{op_k}"] = op_v
                 else:
