@@ -4,9 +4,10 @@ from google.cloud.bigquery.schema import SchemaField
 from google.cloud.exceptions import NotFound
 import time
 import datetime
+from pipeline.logger import LoggingMixin
 
 
-class BigqueryOperator():
+class BigqueryOperator(LoggingMixin):
     def __init__(self, credentials_file_path):
         self.credentials = service_account.Credentials.from_service_account_file(credentials_file_path)
         self.client = bigquery.Client(credentials=self.credentials)
@@ -28,7 +29,7 @@ class BigqueryOperator():
         schema = []
         for key, value in schema_dict.items():
             if value == list:
-                print("schema should not be list")
+                self.log.error("schema should not be list")
             schema_field = SchemaField(key, self.field_type[value])  # NULLABLE BY DEFAULT
             schema.append(schema_field)
         return schema
@@ -56,7 +57,7 @@ class BigqueryOperator():
             errors = self.client.insert_rows(table, data[n:min(n + batch, len(data))])
             n += batch
             error_list.append(errors)
-            print(n, min(n + batch, len(data)))
+            self.log.info(f"upload{n} to  {min(n + batch, len(data))} rows")
             time.sleep(1)
-        print(f'upload {len(data)} row of data')
+        self.log.info(f'upload {len(data)} row of data')
         return error_list
